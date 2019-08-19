@@ -9,7 +9,14 @@ function(formula,vardir,method="REML",MAXITER=100,PRECISION=0.0001,B=0,data)
    if (method!="REML" & method!="ML" & method!="FH")
        stop(" method=\"",method, "\" must be \"REML\", \"ML\" or \"FH\".")
 
-   namevar     <- deparse(substitute(vardir))
+   namesub     <- substitute(vardir)
+   
+   if (typeof(namesub) == "character") {
+     namevar <- vardir
+   } else {
+     namevar <- deparse(namesub)
+   }
+   
    if (!missing(data))
    {
       formuladata <- model.frame(formula,na.action = na.omit,data)
